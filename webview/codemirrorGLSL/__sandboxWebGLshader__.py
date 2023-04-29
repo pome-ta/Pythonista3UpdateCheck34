@@ -13,8 +13,8 @@ class View(ui.View):
     ui.View.__init__(self, *args, **kwargs)
 
     self.wv = ui.WebView()
-    #self.wv.load_url(str(url))
-    self.wv.load_html(str(url))
+    self.wv.load_url(str(url))
+    #self.wv.load_html(str(url))
     self.wv.flex = "WH"
     self.wv.reload()
     self.add_subview(self.wv)
