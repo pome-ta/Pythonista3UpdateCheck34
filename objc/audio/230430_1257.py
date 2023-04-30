@@ -8,6 +8,7 @@ AVAudioFormat = ObjCClass('AVAudioFormat')
 
 
 class Synth:
+
   def __init__(self):
     self.audioEngine: AVAudioEngine
     self.sampleRate: float = 44100.0  # set_up メソッド: outputNode より確定

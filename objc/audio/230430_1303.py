@@ -63,7 +63,6 @@ class Synth:
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
                          frameCount, outputData_ptr) -> OSStatus:
     # todo: ここに処理を書く
-    x = 1
     return 0
 
   def start(self):
