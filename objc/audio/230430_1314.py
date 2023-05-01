@@ -70,12 +70,13 @@ class Synth:
 
     audioEngine.prepare()
     self.audioEngine = audioEngine
+    pdbg.state(self.audioEngine)
 
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
                          frameCount, outputData_ptr) -> OSStatus:
     # todo: ここに処理を書く
     #print('test')
-    return 0
+    return err_ptr
 
   def start(self):
     self.audioEngine.startAndReturnError_(None)
