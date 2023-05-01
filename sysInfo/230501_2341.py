@@ -1,8 +1,8 @@
 import plistlib
 import os
 import sys
-import platform
 from pathlib import Path
+import platform
 from objc_util import ObjCClass, on_main_thread
 import clipboard
 
@@ -10,19 +10,27 @@ import clipboard
 def get_pythonista_version_info():
   version = None
   bundle_version = None
+  
+  plist_path = os.path.abspath(
+    os.path.join(sys.executable, '..', 'Info.plist'))
+  plist_data = Path(sys.executable, '../', 'Info.plist').read_bytes()
+  plist = plistlib.loads(plist_data)
 
+  version = plist['CFBundleShortVersionString']
+  bundle_version = plist['CFBundleVersion']
+
+  '''
   try:
     plist_path = os.path.abspath(
       os.path.join(sys.executable, '..', 'Info.plist'))
-    plist_data = Path(plist_path).read_bytes()
-    plist = plistlib.loads(plist_data)
+    plist = plistlib.loads(plist_path)
 
     version = plist['CFBundleShortVersionString']
     bundle_version = plist['CFBundleVersion']
 
   except Exception:
     pass
-
+  '''
   return 'Pythonista {} ({})'.format(version or 'N/A', bundle_version or 'N/A')
 
 
