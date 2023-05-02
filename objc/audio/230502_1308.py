@@ -35,7 +35,7 @@ class Synth:
     self.audioEngine: AVAudioEngine
     self.sampleRate: float = 44100.0  # set_up メソッド: outputNode より確定
     self.deltaTime: float = 0.0  # 1/sampleRate 時間間隔
-    '''
+
     self.render_block = ObjCBlock(self.source_node_render,
                                   restype=OSStatus,
                                   argtypes=[
@@ -44,7 +44,6 @@ class Synth:
                                     ctypes.POINTER(AudioBufferList)
                                   ])
 
-    '''
     self.set_up()
     print('init----')
 
@@ -63,7 +62,7 @@ class Synth:
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
       format.commonFormat(), self.sampleRate, CHANNEL, format.isInterleaved())
 
-    #sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
+    sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
 
     audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.2
@@ -78,12 +77,12 @@ class Synth:
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
                          frameCount, outputData_ptr) -> OSStatus:
     # todo: ここに処理を書く
-    #print('test')
-    return True
+    print('test')
+    return OSStatus
 
   def start(self):
     print('start')
-    print(self.audioEngine.startAndReturnError_(err_ptr))
+    self.audioEngine.startAndReturnError_(err_ptr)
     print('aaaaaaa')
 
   def stop(self):
