@@ -29,6 +29,7 @@ class Synth:
     inputFormat = AVAudioFormat.alloc(
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
       format.commonFormat(), self.sampleRate, 1, format.isInterleaved())
+    pdbg.state(inputFormat)
 
 
 if __name__ == '__main__':
