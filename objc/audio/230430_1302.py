@@ -31,7 +31,6 @@ class Synth:
     self.audioEngine: AVAudioEngine
     self.sampleRate: float = 44100.0  # set_up メソッド: outputNode より確定
     self.deltaTime: float = 0.0  # 1/sampleRate 時間間隔
-
     self.set_up()
 
   def set_up(self):
