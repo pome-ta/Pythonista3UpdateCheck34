@@ -12,6 +12,29 @@ AVAudioSourceNode = ObjCClass('AVAudioSourceNode')
 AVAudioFormat = ObjCClass('AVAudioFormat')
 
 
+class AudioTimeStampFlags(ctypes.c_uint32):
+  kAudioTimeStampNothingValid = (0)
+  kAudioTimeStampSampleTimeValid = (1 << 0)
+  kAudioTimeStampHostTimeValid = (1 << 1)
+  kAudioTimeStampRateScalarValid = (1 << 2)
+  kAudioTimeStampWordClockTimeValid = (1 << 3)
+  kAudioTimeStampSMPTETimeValid = (1 << 4)
+  kAudioTimeStampSampleHostTimeValid = (kAudioTimeStampSampleTimeValid
+                                        | kAudioTimeStampHostTimeValid)
+
+
+class AudioTimeStamp(ctypes.Structure):
+  _fields_ = [
+    ('mFlags', AudioTimeStampFlags),
+    ('mHostTime', ctypes.c_int64),
+    ('mRateScalar', ctypes.c_double),
+    ('mReserved', ctypes.c_uint32),
+    ('mSMPTETime', SMPTETime),
+    ('mSampleTime', ctypes.c_double),
+    ('mWordClockTime', ctypes.c_uint64),
+  ]
+
+
 class AudioBuffer(ctypes.Structure):
   _fields_ = [
     ('mNumberChannels', ctypes.c_uint32),
@@ -67,6 +90,7 @@ class Synth:
 
     audioEngine.prepare()
     self.audioEngine = audioEngine
+    pdbg.state(audioEngine.attachedNodes())
 
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
                          frameCount, outputData_ptr) -> OSStatus:
