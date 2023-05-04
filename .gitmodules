@@ -1,0 +1,3 @@
+[submodule "objc/rubiconCheckSandBox/Rubicon"]
+	path = objc/rubiconCheckSandBox/Rubicon
+	url = https://github.com/beeware/rubicon-objc.git
