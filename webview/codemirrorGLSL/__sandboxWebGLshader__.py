@@ -3,8 +3,8 @@ import pathlib
 
 import ui
 
-sys.path.append(str(pathlib.Path.cwd()) + '/pythonista-webview')
-from wkwebview import WKWebView
+#sys.path.append(str(pathlib.Path.cwd()) + '/pythonista-webview')
+from wkWebView34 import WKWebView
 
 
 class View(ui.View):
