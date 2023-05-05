@@ -98,5 +98,5 @@ class Synth:
 
 if __name__ == '__main__':
   synth = Synth()
-  synth.start()
+  #synth.start()
 
