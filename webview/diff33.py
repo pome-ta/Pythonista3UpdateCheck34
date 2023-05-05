@@ -10,21 +10,21 @@ from types import SimpleNamespace
 
 class _block_descriptor(Structure):
   _fields_ = [
-    ('reserved', c_ulong),
-    ('size', c_ulong),
-    ('copy_helper', c_void_p),
-    ('dispose_helper', c_void_p),
-    ('signature', c_char_p),
+      ('reserved', c_ulong),
+      ('size', c_ulong),
+      ('copy_helper', c_void_p),
+      ('dispose_helper', c_void_p),
+      ('signature', c_char_p),
   ]
 
 
 def _block_literal_fields(*arg_types):
   return [
-    ('isa', c_void_p),
-    ('flags', c_int),
-    ('reserved', c_int),
-    ('invoke', ctypes.CFUNCTYPE(c_void_p, c_void_p, *arg_types)),
-    ('descriptor', _block_descriptor),
+      ('isa', c_void_p),
+      ('flags', c_int),
+      ('reserved', c_int),
+      ('invoke', ctypes.CFUNCTYPE(c_void_p, c_void_p, *arg_types)),
+      ('descriptor', _block_descriptor),
   ]
 
 
@@ -78,7 +78,7 @@ class WKWebView(ui.View):
       if key.startswith('on_'):
         message_name = key[3:]
         user_content_controller.addScriptMessageHandler_name_(
-          custom_message_handler, message_name)
+            custom_message_handler, message_name)
 
     self.add_script(WKWebView.js_logging_script)
 
@@ -93,7 +93,7 @@ class WKWebView(ui.View):
     # errors, in combination with setting a
     # base directory in the case of load_html
     webview_config.preferences().setValue_forKey_(
-      True, 'allowFileAccessFromFileURLs')
+        True, 'allowFileAccessFromFileURLs')
 
     if inline_media is not None:
       webview_config.allowsInlineMediaPlayback = inline_media
@@ -116,7 +116,7 @@ class WKWebView(ui.View):
   def _create_webview(self, webview_config, nav_delegate, ui_delegate):
     self.webview = WKWebView.WKWebView.alloc().\
         initWithFrame_configuration_(
-        ((0,0), (self.width, self.height)), webview_config).autorelease()
+        ((0, 0), (self.width, self.height)), webview_config).autorelease()
     self.webview.autoresizingMask = 2 + 16  # WH
     self.webview.setNavigationDelegate_(nav_delegate)
     self.webview.setUIDelegate_(ui_delegate)
@@ -152,8 +152,8 @@ class WKWebView(ui.View):
     else:
       cache_policy = 1 if no_cache else 0
       self.webview.loadRequest_(
-        WKWebView.NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
-          nsurl(url), cache_policy, timeout))
+          WKWebView.NSURLRequest.requestWithURL_cachePolicy_timeoutInterval_(
+              nsurl(url), cache_policy, timeout))
 
   @on_main_thread
   def load_html(self, html):
@@ -194,7 +194,7 @@ class WKWebView(ui.View):
       pass
 
     store.removeDataOfTypes_modifiedSince_completionHandler_(
-      data_types, from_start, completion_handler or dummy_completion_handler)
+        data_types, from_start, completion_handler or dummy_completion_handler)
 
   # Javascript evaluation completion handler
 
@@ -304,12 +304,12 @@ class WKWebView(ui.View):
   @property
   def scales_page_to_fit(self):
     raise NotImplementedError(
-      'Not supported on iOS. Use the "disable_" methods instead.')
+        'Not supported on iOS. Use the "disable_" methods instead.')
 
   @scales_page_to_fit.setter
   def scales_page_to_fit(self, value):
     raise NotImplementedError(
-      'Not supported on iOS. Use the "disable_" methods instead.')
+        'Not supported on iOS. Use the "disable_" methods instead.')
 
   @property
   def swipe_navigation(self):
@@ -378,7 +378,7 @@ class WKWebView(ui.View):
 
   def on_javascript_console_message(self, message):
     log_message = json.loads(message)
-    #self.console.message(log_message)
+    # self.console.message(log_message)
     self._message(log_message)
 
   def _message(self, message):
@@ -472,7 +472,7 @@ class WKWebView(ui.View):
     _fields_ = _block_literal_fields(ctypes.c_long)
 
   def webView_decidePolicyForNavigationAction_decisionHandler_(
-      _self, _cmd, _webview, _navigation_action, _decision_handler):
+          _self, _cmd, _webview, _navigation_action, _decision_handler):
     delegate_instance = ObjCInstance(_self)
     webview = delegate_instance._pythonistawebview()
     deleg = webview.delegate
@@ -534,7 +534,7 @@ class WKWebView(ui.View):
         deleg.webview_did_fail_load(webview, error_code, error_msg)
         return
     raise RuntimeError(
-      f'WKWebView load failed with code {error_code}: {error_msg}')
+        f'WKWebView load failed with code {error_code}: {error_msg}')
 
   def webView_didFailProvisionalNavigation_withError_(_self, _cmd, _webview,
                                                       _navigation, _error):
@@ -542,15 +542,15 @@ class WKWebView(ui.View):
                                                    _navigation, _error)
 
   CustomNavigationDelegate = create_objc_class(
-    'CustomNavigationDelegate',
-    superclass=NSObject,
-    methods=[
-      webView_didCommitNavigation_, webView_didFinishNavigation_,
-      webView_didFailNavigation_withError_,
-      webView_didFailProvisionalNavigation_withError_,
-      webView_decidePolicyForNavigationAction_decisionHandler_
-    ],
-    protocols=['WKNavigationDelegate'])
+      'CustomNavigationDelegate',
+      superclass=NSObject,
+      methods=[
+          webView_didCommitNavigation_, webView_didFinishNavigation_,
+          webView_didFailNavigation_withError_,
+          webView_didFailProvisionalNavigation_withError_,
+          webView_decidePolicyForNavigationAction_decisionHandler_
+      ],
+      protocols=['WKNavigationDelegate'])
 
   # Script message handler
 
@@ -570,10 +570,10 @@ class WKWebView(ui.View):
                       'content: {content}')
 
   CustomMessageHandler = create_objc_class(
-    'CustomMessageHandler',
-    UIViewController,
-    methods=[userContentController_didReceiveScriptMessage_],
-    protocols=['WKScriptMessageHandler'])
+      'CustomMessageHandler',
+      UIViewController,
+      methods=[userContentController_didReceiveScriptMessage_],
+      protocols=['WKScriptMessageHandler'])
 
   # UI delegate (for alerts etc.)
 
@@ -581,13 +581,13 @@ class WKWebView(ui.View):
     _fields_ = _block_literal_fields()
 
   def webView_runJavaScriptAlertPanelWithMessage_initiatedByFrame_completionHandler_(
-      _self, _cmd, _webview, _message, _frame, _completion_handler):
+          _self, _cmd, _webview, _message, _frame, _completion_handler):
     delegate_instance = ObjCInstance(_self)
     webview = delegate_instance._pythonistawebview()
     message = str(ObjCInstance(_message))
     host = str(ObjCInstance(_frame).request().URL().host())
     webview._javascript_alert(host, message)
-    #console.alert(host, message, 'OK', hide_cancel_button=True)
+    # console.alert(host, message, 'OK', hide_cancel_button=True)
     completion_handler = ObjCInstance(_completion_handler)
     retain_global(completion_handler)
     blk = WKWebView._block_alert_completion.from_address(_completion_handler)
@@ -602,7 +602,7 @@ class WKWebView(ui.View):
     _fields_ = _block_literal_fields(ctypes.c_bool)
 
   def webView_runJavaScriptConfirmPanelWithMessage_initiatedByFrame_completionHandler_(
-      _self, _cmd, _webview, _message, _frame, _completion_handler):
+          _self, _cmd, _webview, _message, _frame, _completion_handler):
     delegate_instance = ObjCInstance(_self)
     webview = delegate_instance._pythonistawebview()
     message = str(ObjCInstance(_message))
@@ -622,8 +622,8 @@ class WKWebView(ui.View):
     _fields_ = _block_literal_fields(c_void_p)
 
   def webView_runJavaScriptTextInputPanelWithPrompt_defaultText_initiatedByFrame_completionHandler_(
-      _self, _cmd, _webview, _prompt, _default_text, _frame,
-      _completion_handler):
+          _self, _cmd, _webview, _prompt, _default_text, _frame,
+          _completion_handler):
     delegate_instance = ObjCInstance(_self)
     webview = delegate_instance._pythonistawebview()
     prompt = str(ObjCInstance(_prompt))
@@ -641,14 +641,14 @@ class WKWebView(ui.View):
   f.encoding = b'v@:@@@@@?'
 
   CustomUIDelegate = create_objc_class(
-    'CustomUIDelegate',
-    superclass=NSObject,
-    methods=[
-      webView_runJavaScriptAlertPanelWithMessage_initiatedByFrame_completionHandler_,
-      webView_runJavaScriptConfirmPanelWithMessage_initiatedByFrame_completionHandler_,
-      webView_runJavaScriptTextInputPanelWithPrompt_defaultText_initiatedByFrame_completionHandler_
-    ],
-    protocols=['WKUIDelegate'])
+      'CustomUIDelegate',
+      superclass=NSObject,
+      methods=[
+          webView_runJavaScriptAlertPanelWithMessage_initiatedByFrame_completionHandler_,
+          webView_runJavaScriptConfirmPanelWithMessage_initiatedByFrame_completionHandler_,
+          webView_runJavaScriptTextInputPanelWithPrompt_defaultText_initiatedByFrame_completionHandler_
+      ],
+      protocols=['WKUIDelegate'])
 
 
 if __name__ == '__main__':
@@ -720,10 +720,9 @@ if __name__ == '__main__':
 
   r.present()  # Use 'panel' if you want to view console in another tab
 
-  #v.disable_all()
+  # v.disable_all()
   v.load_html(html)
-  #v.load_url('http://omz-software.com/pythonista/',
+  # v.load_url('http://omz-software.com/pythonista/',
   #    no_cache=False, timeout=5)
-  #v.load_url('file://some/local/file.html')
+  # v.load_url('file://some/local/file.html')
   v.clear_cache()
-
