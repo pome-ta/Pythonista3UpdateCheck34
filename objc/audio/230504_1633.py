@@ -44,14 +44,15 @@ class Synth:
         ctypes.c_void_p,  # isSilence
         ctypes.c_void_p,  # timestamp
         ctypes.c_void_p,  # frameCount
-        #ctypes.POINTER(AudioBufferList),  # outputData
-        AudioBufferList,  # outputData
+        ctypes.POINTER(AudioBufferList),  # outputData
+        #AudioBufferList,  # outputData
       ])
 
     self.set_up()
 
+  @on_main_thread
   def set_up(self):
-    audioEngine = AVAudioEngine.new()
+    audioEngine = AVAudioEngine.new()  #.autorelease()
     sourceNode = AVAudioSourceNode.alloc()
     #sourceNode = AVAudioSourceNode.new()
     mainMixer = audioEngine.mainMixerNode()
@@ -63,9 +64,11 @@ class Synth:
 
     inputFormat = AVAudioFormat.alloc(
     ).initWithCommonFormat_sampleRate_channels_interleaved_(
-      format.commonFormat(), self.sampleRate, CHANNEL, format.isInterleaved())
+      format.commonFormat(), self.sampleRate, CHANNEL,
+      format.isInterleaved())  #.autorelease()
 
-    sourceNode.initWithFormat_renderBlock_(inputFormat, self.render_block)
+    sourceNode.initWithFormat_renderBlock_(inputFormat,
+                                           self.render_block).autorelease()
 
     audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.2
@@ -75,15 +78,18 @@ class Synth:
 
     audioEngine.prepare()
     self.audioEngine = audioEngine
+
+  #@on_main_thread
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
                          frameCount, outputData_ptr) -> OSStatus:
     # todo: ここに処理を書く
     print('test')
     return 0
 
+  #@on_main_thread
   def start(self):
     print('start')
-    self.audioEngine.startAndReturnError_(None)
+    self.audioEngine.startAndReturnError_(None)  #.autorelease()
     print('startAndReturnError')
 
   def stop(self):
