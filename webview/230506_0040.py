@@ -185,6 +185,7 @@ class WKWebView(ui.View):
     retain_global(block)
     self.webview.evaluateJavaScript_completionHandler_(js, block)
 
+  @ui.in_background
   def clear_cache(self, completion_handler=None):
     store = WKWebView.WKWebsiteDataStore.defaultDataStore()
     data_types = WKWebView.WKWebsiteDataStore.allWebsiteDataTypes()
