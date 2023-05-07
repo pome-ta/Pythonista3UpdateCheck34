@@ -58,8 +58,8 @@ class WKWebView(ui.View):
                pip_media=True,
                **kwargs):
 
-    dm = self.dummy_webview()
-    del dm
+    dummy = self.dummy_webview()
+    del dummy
 
     WKWebView.webviews.append(self)
     self.delegate = None
@@ -735,5 +735,5 @@ if __name__ == '__main__':
   v.load_url('http://omz-software.com/pythonista/', no_cache=False, timeout=5)
   #v.load_url('http://omz-software.com/pythonista/')
   #v.load_url('file://some/local/file.html')
-  v.clear_cache()
+  #v.clear_cache()
 
