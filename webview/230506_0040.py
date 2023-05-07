@@ -58,6 +58,9 @@ class WKWebView(ui.View):
                pip_media=True,
                **kwargs):
 
+    dm = self.dummy_webview()
+    del dm
+
     WKWebView.webviews.append(self)
     self.delegate = None
     self.log_js_evals = log_js_evals
@@ -111,6 +114,11 @@ class WKWebView(ui.View):
     self._create_webview(webview_config, nav_delegate, ui_delegate)
 
     self.swipe_navigation = swipe_navigation
+
+  @on_main_thread
+  def dummy_webview(self):
+    dummy1 = WKWebView.WKWebView.alloc().initWithFrame_(
+      ((0, 0), (100, 100))).autorelease()
 
   @on_main_thread
   def _create_webview(self, webview_config, nav_delegate, ui_delegate):
@@ -722,9 +730,10 @@ if __name__ == '__main__':
   r.present()  # Use 'panel' if you want to view console in another tab
 
   # v.disable_all()
-  v.load_html(html)
-  # v.load_url('http://omz-software.com/pythonista/',
-  #    no_cache=False, timeout=5)
-  # v.load_url('file://some/local/file.html')
+  #v.load_html(html)
+  #v.load_url('http://omz-software.com/pythonista/', no_cache=False, timeout=5)
+  v.load_url('http://omz-software.com/pythonista/', no_cache=False, timeout=5)
+  #v.load_url('http://omz-software.com/pythonista/')
+  #v.load_url('file://some/local/file.html')
   v.clear_cache()
 
