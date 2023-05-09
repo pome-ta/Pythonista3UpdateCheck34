@@ -19,6 +19,7 @@ class View(ui.View):
 
   def __init__(self, *args, **kwargs):
     ui.View.__init__(self, *args, **kwargs)
+    self.bg_color = 0.5
 
 
 if __name__ == "__main__":
