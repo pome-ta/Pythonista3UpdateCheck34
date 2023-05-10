@@ -50,7 +50,7 @@ class Synth:
 
     self.set_up()
 
-  @on_main_thread
+  #@on_main_thread
   def set_up(self):
     audioEngine = AVAudioEngine.new()  #.autorelease()
     sourceNode = AVAudioSourceNode.alloc()
@@ -68,7 +68,7 @@ class Synth:
       format.isInterleaved())  #.autorelease()
 
     sourceNode.initWithFormat_renderBlock_(inputFormat,
-                                           self.render_block).autorelease()
+                                           self.render_block)  #.autorelease()
 
     audioEngine.attachNode_(sourceNode)
     sourceNode.volume = 0.2
@@ -78,6 +78,7 @@ class Synth:
 
     audioEngine.prepare()
     self.audioEngine = audioEngine
+    pdbg.all(sourceNode)
 
   #@on_main_thread
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
