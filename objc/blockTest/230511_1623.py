@@ -19,6 +19,7 @@ def compare(_cmd, a, b):
 
 
 # Note: The first (hidden) argument `_cmd` is the block itself, so there are three arguments instead of two.
+# 最初の(隠し)引数 `_cmd` はブロックそのものなので、引数は2つではなく3つです。
 compare_block = ObjCBlock(
   compare,
   restype=NSInteger,
