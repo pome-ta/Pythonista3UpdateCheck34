@@ -41,7 +41,7 @@ class Synth:
       restype=OSStatus,
       argtypes=[
         ctypes.c_void_p,  # _cmd
-        ctypes.c_void_p,  # isSilence
+        ctypes.c_bool,  # isSilence
         ctypes.c_void_p,  # timestamp
         ctypes.c_void_p,  # frameCount
         ctypes.POINTER(AudioBufferList),  # outputData
@@ -71,7 +71,7 @@ class Synth:
     audioEngine.connect_to_format_(sourceNode, mainMixer, inputFormat)
     audioEngine.connect_to_format_(mainMixer, outputNode, inputFormat)
 
-    audioEngine.prepare()
+    #audioEngine.prepare()
     self.audioEngine = audioEngine
 
   def source_node_render(self, _cmd, _isSilence_ptr, _timestamp_ptr,
@@ -84,6 +84,7 @@ class Synth:
   #@on_main_thread
   @ui.in_background
   def start(self):
+    self.audioEngine.prepare()
     time.sleep(0.1)
     self.audioEngine.startAndReturnError_(None)
 
